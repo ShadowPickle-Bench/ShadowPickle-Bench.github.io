@@ -20,7 +20,7 @@ Pre-trained machine learning models (PTMs) and their hosting hubs (e.g., Hugging
 
 <img alt="PickleBench_Workflow" src="./assets/PickleBench_Workflow.png" />
 
-## Artifact location and Structre
+## Artifact location and Structure
 
 We store the 4000 models used for the study on Google Cloud Storage. However, due to anonymity reasons, we cannot provide the storage bucket. We also cannot upload the full dataset to platforms like Zenodo due to the total size being above 2800 GB. Instead, we provide a toy dataset, comprising of 160 models. These 160 models consist of 40 benign models, and 120 injected malicious models. The injected malicious models consist of 40 injected models of each of the three (3) attacks presented in the paper, totalling 120 malicious models. We provide the models on [Zenodo](https://zenodo.org/records/19998261).
 
@@ -110,6 +110,74 @@ uv sync
 ```
 
 **Note to artifact evaluators:** If evaluating the PyPI attack, it is recommended to also install all the libraries in the `pypi_requirements.txt` file as they are required to run the malicious models and part of the threat model.
+
+## Reproducing Results
+
+### RQ1: How effective are the proposed ShadowPickle attacks in evading SOTA scanners?
+
+To reconstruct the ShadowPickle and PickleBench set, the following can be run:
+
+```bash
+uv run download_hf_models.py --type model --base-dir <directory-to-download>  --tag text-generation --bucket-name <bucket-name> --upload --all --payload-dir payloads 
+```
+
+This will download the models from the model ranking (by likes) that we started downloading from in the paper. However, as we acknowledge that the rankings are dynamic, and thus provide the list of models downloaded in `Results/filter_names_injected` to reproduce our results with the same models.
+
+Upon download, or if using the toy dataset provided on [Zenodo](https://zenodo.org/records/19998261), the following script can be run:
+
+```bash
+uv run scan_directory.py --dir <path-to-download-dir>
+```
+
+And then the results can be read with:
+
+```bash
+uv run scan_result_analyzer.py --csv-path <path-to-csv-from-scan-directory>
+```
+
+The uploaded models to Hugging Face for the closed-source scanner results can be found in 2 repositories [A](https://huggingface.co/Zolllll/dont_download_this2) and [B](https://huggingface.co/Zolllll/dont_download_this).
+
+### RQ2: How do our proposed ShadowPickle attacks compare to SOTA Pickle deserialisation attacks?
+
+To compare to SOTA attacks, we can run:
+
+```bash
+uv run scan_directory.py --dir <path-to-download-dir>
+```
+
+On the directories containing the [PickleCloak](https://github.com/Lyutoon/PickleCloak/tree/909fff715f065d690c3d5475f324a931d97349fc/gadget/exploits/malicious_pkls), [Stacked Pickles](https://huggingface.co/coldwaterq/sectest/tree/main) and [Library Import](https://github.com/security-pride/MalHug) Attacks. Followed by reading the results with:
+
+```bash
+uv run scan_result_analyzer.py --csv-path <path-to-csv-from-scan-directory>
+```
+
+We provide the results in `Results`.
+
+### RQ3: How do SOTA scanners perform on advanced ShadowPickle attacks (e.g., obfuscated, payloads)?
+
+To reproduce the open-source scanner results, the following can be run:
+
+```bash
+uv run scan_directory.py --dir payloads/advanced
+```
+
+And then the results can be read in the csv generated named "scanning_directory_payloads/advanced.csv".
+
+The closed-source results can be found in the `advanced_payloads` directory in the [repository](https://huggingface.co/Zolllll/dont_download_this2).
+
+### RQ4: How does PickleBench compare to SOTA benchmarks (PickleCloak, PickleBall, MalHug)?
+
+After recreating the dataset, or using the toy dataset in [RQ1](#rq1-how-effective-are-the-proposed-shadowpickle-attacks-in-evading-sota-scanners), we can compare the results to [PickleCloak](https://github.com/Lyutoon/PickleCloak/tree/909fff715f065d690c3d5475f324a931d97349fc/gadget/exploits/malicious_pkls) [MalHug](https://github.com/security-pride/MalHug) and [Pickleball](https://github.com/columbia/pickleball). To scan the directory with them, run:
+
+```bash
+uv run scan_directory.py --dir <path-to-download-dir>
+```
+
+And the results can be analysed with:
+
+```bash
+uv run scan_result_analyzer.py --csv-path <path-to-csv-from-scan-directory>
+```
 
 ## Usage
 
