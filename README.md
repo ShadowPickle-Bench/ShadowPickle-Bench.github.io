@@ -22,7 +22,7 @@ Pre-trained machine learning models (PTMs) and their hosting hubs (e.g., Hugging
 
 ## Artifact location and Structre
 
-We store the 4000 models used for the study on Google Cloud Storage. However, due to anonymity reasons, we cannot provide the storage bucket. We also cannot upload the full dataset to platforms like Zenodo due to the total size being above 2800 GB. Instead, we provide a toy dataset, comprising of 160 models. These 160 models consist of 40 benign models, and 120 injected malicious models. The injected malicious models consist of 40 injected models of each of the three (3) attacks presented in the paper, totalling 120 malicious models. We provide the models on [Zenodo].
+We store the 4000 models used for the study on Google Cloud Storage. However, due to anonymity reasons, we cannot provide the storage bucket. We also cannot upload the full dataset to platforms like Zenodo due to the total size being above 2800 GB. Instead, we provide a toy dataset, comprising of 160 models. These 160 models consist of 40 benign models, and 120 injected malicious models. The injected malicious models consist of 40 injected models of each of the three (3) attacks presented in the paper, totalling 120 malicious models. We provide the models on [Zenodo](https://zenodo.org/records/19998261).
 
 The artifact is structured as follows:
 
