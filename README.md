@@ -2,6 +2,7 @@
 
 - [Github Repository](https://github.com/ShadowPickle-Bench/ShadowPickle)
 - [Paper](./assets/ShadowPickle-Bench.pdf)
+- [Supplementary Material](./assets/ShadowPickle_supplementary_material.pdf)
 - [Website](https://shadowpickle-bench.github.io)
 
 # ShadowPickle-Bench: Evading Machine Learning Model Scanners via Stealthy Pickle Deserialization Attacks
